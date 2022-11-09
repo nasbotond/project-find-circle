@@ -34,6 +34,8 @@ class HoughTransform
         ~HoughTransform() {}
 
         // Main functions
+        void getCircles();
+        cv::Mat CannyEdge(cv::Mat& image);
         // void applyThresholding();
         // int calculateOptimalThreshold(std::vector<double>& hist, double& mean);
         // std::vector<double> calculateHistogram(cv::Mat& image);

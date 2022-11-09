@@ -24,17 +24,17 @@ int main(int argc, char* argv[])
     }
 
     // Input
-    HoughTransform otsu = HoughTransform(sPath, outputFileName);    
+    HoughTransform hough = HoughTransform(sPath, outputFileName);    
 
-    // try 
-    // {
-    //     otsu.applyThresholding();
-    // } 
-    // catch(const std::exception &e) 
-    // {
-    //     std::cerr << e.what() << '\n';
-    //     return -1;
-    // }
+    try 
+    {
+        hough.getCircles();
+    } 
+    catch(const std::exception &e) 
+    {
+        std::cerr << e.what() << '\n';
+        return -1;
+    }
 
     return 0;
 }
