@@ -25,9 +25,42 @@ void HoughTransform::getCircles()
             // Get edges
             cv::Mat edgeImage = CannyEdge(image);
             cv::Mat accumulator = cv::Mat::zeros(image.rows, image.cols, CV_8U);
+            
+            std::vector<cv::Point3i> circle_candidates;
+            int r_max = 27; //21/2;
+            int r_min = 11; //21/2;
 
+            for(int r = r_min; r <= r_max; ++r)
+            {
+                for(int t = 0; t <= 360; t=t+5)
+                {
+                    circle_candidates.push_back(cv::Point3i(r, static_cast<int>(r*std::cos(t*M_PI/180)), static_cast<int>(r*sin(t*M_PI/180))));
+                }
+            }
+
+            for(int i = 0; i < image.rows; ++i)
+            {
+                for(int j = 0; j < image.cols; ++j)
+                {
+                    if(edgeImage.at<uchar>(i, j) > 0)
+                    {
+                        for(int c = 0; c < circle_candidates.size(); ++c)
+                        {
+                            int x_c = j - circle_candidates.at(c).y;
+                            int y_c = i - circle_candidates.at(c).z;
+                            if(accumulator.at<uchar>(y_c, x_c) < 255)
+                            {
+                                accumulator.at<uchar>(y_c, x_c) += 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            /*
             // loop through diameters
-            for(int d = 17; d <= 27; d = d+2)
+            for(int d = 19; d <= 19; d = d+2)
             {
                 double radius = (double)d/2;
                 double r_2 = radius*radius;
@@ -81,7 +114,7 @@ void HoughTransform::getCircles()
                     }
                 }
             }
-
+            */
 
             // int optThresh = calculateOptimalThreshold(hist, mean);
             // std::cout << optThresh << std::endl;
