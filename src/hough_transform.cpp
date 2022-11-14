@@ -1,4 +1,5 @@
 #include "hough_transform.hpp"
+#include "otsu_thresholder.hpp"
 
 void HoughTransform::getCircles()
 {    
@@ -130,10 +131,30 @@ void HoughTransform::getCircles()
             {
                 for(int j = 0; j < accumulator.cols; ++j)
                 {
-                    if(static_cast<int>(accumulator.at<uchar>(i, j)) < 20)
+                    if(static_cast<int>(accumulator.at<uchar>(i, j)) < 30)
                     {
                         accumulator.at<uchar>(i, j) = 0;
                     }
+                }
+            }
+
+            // cv::normalize(accumulator, accumulator, 0, 255, cv::NORM_MINMAX, CV_8U);
+
+            // Otsu Thresholding
+            std::vector<double> hist = OtsuThresholder::calculateHistogram(accumulator);
+            double mean = OtsuThresholder::getHistogramMean(hist);
+
+            int optThresh = OtsuThresholder::calculateOptimalThreshold(hist, mean);
+            std::cout << optThresh << std::endl;
+            
+            // Apply threshold to output image
+            cv::Mat output = accumulator.clone();
+
+            for(int i = 0; i < output.rows; ++i)
+            {
+                for(int j = 0; j < output.cols; ++j)
+                {
+                    output.at<uchar>(i,j) = output.at<uchar>(i,j) > optThresh ? 255 : 0;
                 }
             }
 
@@ -145,13 +166,12 @@ void HoughTransform::getCircles()
                 for(int j = 0; j < accumulator.cols; ++j)
                 {
                     double votePercentage = accumulator.at<uchar>(i,j)/360;
-                    if(accumulator.at<uchar>(i,j) >= 30)
+                    if(accumulator.at<uchar>(i,j) >= 37)
                     {
                         cv::drawMarker(outputImage, cv::Point(j, i),  cv::Scalar(0, 0, 255), cv::MARKER_CROSS, 10, 1);
                     }
                 }
             }
-            
 
             // // Create combined image to view results side-by-side
             // cv::Mat combinedImage(image.rows, 2*image.cols, CV_8U);
@@ -166,7 +186,8 @@ void HoughTransform::getCircles()
 
             // Show combined image
             // cv::imshow("(1) Original : (2) Thresholded", edgeImage);
-            cv::imshow("(1) Original : (2) Thresholded", accumulator);
+            cv::imshow("(1) Original : (2) Thresholded", output);
+            // cv::imshow("(1) Original : (2) Thresholded", accumulator);
             // cv::imshow("(1) Original : (2) Thresholded", outputImage);
             cv::waitKey(0);
         }

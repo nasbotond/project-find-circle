@@ -17,5 +17,5 @@ find_package ( OpenCV REQUIRED )
 include_directories ( ${OpenCV_INCLUDE_DIRS} )
 include_directories ( ${hough_transform} )
 
-add_executable ( findCircle ${source_dir}/main.cpp ${source_dir}/hough_transform.cpp )
+add_executable ( findCircle ${source_dir}/main.cpp ${source_dir}/hough_transform.cpp ${source_dir}/otsu_thresholder.cpp )
 target_link_libraries ( findCircle ${OpenCV_LIBS} )
