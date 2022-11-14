@@ -37,11 +37,4 @@ class HoughTransform
         void getCircles();
         cv::Mat CannyEdge(cv::Mat& image);
         void prewittEdgeDetectorWithNMS(cv::Mat& image, cv::Mat& outputPrewitt, cv::Mat& outputPrewittNMS, std::vector<double>& gradientDirections);
-        // void applyThresholding();
-        // int calculateOptimalThreshold(std::vector<double>& hist, double& mean);
-        // std::vector<double> calculateHistogram(cv::Mat& image);
-        // double getHistogramMean(std::vector<double>& hist);
-        // double calculateWeight1(int t, int& firstNZIndex, std::vector<double>& hist);
-        // double calculateMean1(int t, int& firstNZIndex, std::vector<double>& hist);
-        // int getFirstNonzeroIndex(std::vector<double>& hist);
 };

@@ -186,8 +186,8 @@ void HoughTransform::getCircles()
 
             // Show combined image
             // cv::imshow("(1) Original : (2) Thresholded", edgeImage);
-            cv::imshow("(1) Original : (2) Thresholded", output);
-            // cv::imshow("(1) Original : (2) Thresholded", accumulator);
+            // cv::imshow("(1) Original : (2) Thresholded", output);
+            cv::imshow("(1) Original : (2) Thresholded", accumulator);
             // cv::imshow("(1) Original : (2) Thresholded", outputImage);
             cv::waitKey(0);
         }
