@@ -7,14 +7,17 @@
 
 int main(int argc, char* argv[]) 
 {
-    if (argc < 3) 
+    if (argc < 6) 
     {
-        std::cerr << "Usage: " << argv[0] << " <path to directory containing images> <output file prefix>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <path to directory containing images> <output file prefix> <minimum diameter> <maximum diameter> <threshold>" << std::endl;
         return 1;
     }
 
     std::string sPath = argv[1];
     std::string outputFileName = argv[2];
+    int d_min = std::stoi(argv[3]);
+    int d_max = std::stoi(argv[4]);
+    int threshold =std::stoi(argv[5]);
 
     // Check if path is valid
     if(!std::filesystem::exists(sPath)) 
@@ -24,7 +27,7 @@ int main(int argc, char* argv[])
     }
 
     // Input
-    HoughTransform hough = HoughTransform(sPath, outputFileName);    
+    HoughTransform hough = HoughTransform(sPath, outputFileName, d_min, d_max, threshold);    
 
     try 
     {

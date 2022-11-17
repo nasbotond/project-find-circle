@@ -73,6 +73,7 @@ namespace OtsuThresholder
 
         // Skip zeroes at the beginning of histogram
         int firstIndex = getFirstNonzeroIndex(hist);
+        // std::cout << firstIndex << std::endl;
 
         for(int t = firstIndex; t < 256; ++t)
         {
@@ -98,13 +99,17 @@ namespace OtsuThresholder
     std::vector<double> calculateHistogram(cv::Mat& image)
     {
         std::vector<double> hist(256);
-        int numPixels = image.total();
+        int numPixels = 0; // image.total();
 
         for(int i = 0; i < image.rows; ++i)
         {
             for(int j = 0; j < image.cols; ++j)
             {
-                hist.at(image.at<uchar>(i,j)) = hist.at(image.at<uchar>(i,j)) + 1;
+                if(image.at<uchar>(i,j)>0)
+                {
+                    numPixels++;
+                    hist.at(image.at<uchar>(i,j)) = hist.at(image.at<uchar>(i,j)) + 1;
+                }
             }
         }
 

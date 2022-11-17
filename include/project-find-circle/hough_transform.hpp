@@ -27,14 +27,16 @@ class HoughTransform
     
         std::string sPath;
         std::string outputFileName;
+        int d_min;
+        int d_max;
+        int threshold;
 
     public:
 
-        HoughTransform(const std::string &sPath, const std::string &outputFileName) : sPath(sPath), outputFileName(outputFileName) {}
+        HoughTransform(const std::string &sPath, const std::string &outputFileName, const int &d_min, const int &d_max, const int &threshold) : sPath(sPath), outputFileName(outputFileName), 
+            d_min(d_min), d_max(d_max), threshold(threshold) {}
         ~HoughTransform() {}
 
         // Main functions
         void getCircles();
-        cv::Mat CannyEdge(cv::Mat& image);
-        void prewittEdgeDetectorWithNMS(cv::Mat& image, cv::Mat& outputPrewitt, cv::Mat& outputPrewittNMS, std::vector<double>& gradientDirections);
 };
